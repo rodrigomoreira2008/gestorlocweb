@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom';
-import { Building2, Layers3, Package, Users } from 'lucide-react';
+import { Building2, Home, Layers3, Package, Users } from 'lucide-react';
 
 export function Layout() {
   const linkClass = ({ isActive }: { isActive: boolean }) =>
@@ -29,6 +29,9 @@ export function Layout() {
           </NavLink>
           <NavLink to="/grupo-produtos" className={linkClass}>
             <Package size={18} /> Grupo Produtos
+          </NavLink>
+          <NavLink to="/locacao" className={linkClass}>
+            <Home size={18} /> Locação
           </NavLink>
         </nav>
       </aside>
