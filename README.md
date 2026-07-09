@@ -9,6 +9,8 @@ Sistema web moderno e responsivo gerado a partir do arquivo `GestorLoc.sql`.
 - `Locacao`
 - `Parceiros`
 - `Produtos`
+- `Pedido`
+- `ItemPedido`
 
 ## Tecnologias
 
@@ -51,6 +53,14 @@ http://localhost:5173
 
 ## Rotas da API
 
+### Pedidos
+
+- `GET /api/pedidos`
+- `GET /api/pedidos/:id`
+- `POST /api/pedidos`
+- `PUT /api/pedidos/:id`
+- `DELETE /api/pedidos/:id`
+
 ### Grupo Parceiros
 
 - `GET /api/grupo-parceiros`
@@ -91,11 +101,6 @@ http://localhost:5173
 - `PUT /api/parceiros/:id`
 - `DELETE /api/parceiros/:id`
 
-## Observação
-
-O arquivo original usa Firebird. Para facilitar a execução local, o projeto inclui um banco SQLite equivalente.
-Caso queira manter Firebird em produção, a camada `backend/src/db/connection.ts` pode ser trocada por um driver Firebird.
-
 ## CONTROLE automático
 
 Os cadastros abaixo geram automaticamente o campo `CONTROLE` no backend:
@@ -104,36 +109,27 @@ Os cadastros abaixo geram automaticamente o campo `CONTROLE` no backend:
 - `GrupoProdutos`: prefixo `GPR`
 - `Locacao`: prefixo `LOC`
 - `Produtos`: prefixo `PROD`
+- `Pedido`: prefixo `PED`
 
-Regras implementadas:
+## Pedidos
 
-- O usuário não digita o campo `CONTROLE` no cadastro.
-- O campo aparece como somente leitura na tela.
-- Na edição, o `CONTROLE` não é alterado.
-- O banco cria índice único para os campos de controle.
+Esta versão inclui o cadastro de Pedidos em modelo mestre-detalhe:
 
-## Grupo de Produtos
-
-Esta versão inclui o cadastro de Grupo Produtos, no mesmo padrão do Grupo Parceiros:
-
-- Tela de listagem em `/grupo-produtos`
-- Cadastro e edição em modal
-- Campo `CONTROLE` somente leitura no frontend
-- Geração automática do `CONTROLE` no backend
-- API REST em `/api/grupo-produtos`
-- Tabela SQLite `GrupoProdutos`
-
-## Locação
-
-Esta versão inclui o cadastro de Locação, no mesmo padrão do Grupo Produtos:
-
-- Tela de listagem em `/locacao`
-- Cadastro e edição em modal
-- Campo `CONTROLE` somente leitura no frontend
-- Geração automática do `CONTROLE` no backend com prefixo `LOC`
-- API REST em `/api/locacao`
-- Tabela SQLite `Locacao`
-- Campos principais: `DESCRICAO`, `ENDERECOPADRAO`, `STATUS`, `TIPO` e `CONTROLE`
+- Tela de listagem em `/pedidos`
+- Pedido com vários itens em `ItemPedido`
+- `NUMERO` sequencial gerado automaticamente
+- `CONTROLE` automático no backend
+- `DATALOCACAO` e `HORALOCACAO` preenchidos pelo sistema
+- `DATADEVOLUCAO` calculada a partir de `DATALOCACAO + PERIODO`
+- `PERIODO` recalculado quando a data de devolução é alterada
+- `HORADEVOLUCAO` preenchida com `HORALOCACAO + 2 horas`
+- `CLIENTE`, `VENDEDOR` e `MOTORISTA` vinculados à tabela `Parceiros`
+- `ENDERECOINSTALACAO` preenchido com endereço do cliente selecionado
+- `VALORPRODUTOS` e `VALORTOTAL` calculados pelo sistema
+- `VALORTOTAL = VALORPRODUTOS + VALORFRETE - VALORACRESCIMODESCONTO`
+- Itens vinculados a `Produtos`
+- Campos do item preenchidos automaticamente a partir do produto selecionado
+- Totais dos itens recalculados automaticamente
 
 ## Produtos
 
