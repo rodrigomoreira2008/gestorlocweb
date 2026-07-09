@@ -6,6 +6,7 @@ import { GrupoParceirosPage } from './pages/GrupoParceirosPage';
 import { GrupoProdutosPage } from './pages/GrupoProdutosPage';
 import { LocacaoPage } from './pages/LocacaoPage';
 import { ParceirosPage } from './pages/ParceirosPage';
+import { PedidosPage } from './pages/PedidosPage';
 import { ProdutosPage } from './pages/ProdutosPage';
 import './index.css';
 
@@ -14,7 +15,8 @@ const router = createBrowserRouter([
     path: '/',
     element: <Layout />,
     children: [
-      { index: true, element: <Navigate to="/parceiros" replace /> },
+      { index: true, element: <Navigate to="/pedidos" replace /> },
+      { path: 'pedidos', element: <PedidosPage /> },
       { path: 'parceiros', element: <ParceirosPage /> },
       { path: 'grupo-parceiros', element: <GrupoParceirosPage /> },
       { path: 'grupo-produtos', element: <GrupoProdutosPage /> },
