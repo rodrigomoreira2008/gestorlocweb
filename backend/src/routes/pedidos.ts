@@ -25,6 +25,27 @@ function diffDays(startText: string, endText: string) {
   return Math.max(0, Math.round((end - start) / 86400000));
 }
 
+function erroRegra(message: string) {
+  const error = new Error(message) as Error & { statusCode?: number };
+  error.statusCode = 400;
+  return error;
+}
+
+function validarProdutosRepetidos(itens: any[] = []) {
+  const produtos = new Set<string>();
+
+  for (const item of itens) {
+    const produto = String(item.PRODUTO ?? '').trim();
+    if (!produto) continue;
+
+    if (produtos.has(produto)) {
+      throw erroRegra('O produto escolhido já está cadastrado no pedido.');
+    }
+
+    produtos.add(produto);
+  }
+}
+
 async function nextNumero(db: any) {
   const row = await db.get('SELECT COALESCE(MAX(NUMERO), 0) + 1 AS NUMERO FROM Pedido');
   return row.NUMERO;
@@ -109,6 +130,8 @@ router.post('/', async (req, res) => {
   const db = await getDb();
   await db.run('BEGIN');
   try {
+    validarProdutosRepetidos(req.body.ITENS || []);
+
     const hoje = new Date();
     const dataLocacao = req.body.DATALOCACAO || hoje.toISOString().slice(0, 10);
     const horaLocacao = req.body.HORALOCACAO || hoje.toTimeString().slice(0, 8);
@@ -171,8 +194,9 @@ router.post('/', async (req, res) => {
     res.status(201).json(await montarPedido(db, pedidoId));
   } catch (error) {
     await db.run('ROLLBACK');
+    const statusCode = (error as any).statusCode || 500;
     console.error(error);
-    res.status(500).json({ message: 'Erro ao cadastrar pedido' });
+    res.status(statusCode).json({ message: statusCode === 400 ? (error as Error).message : 'Erro ao cadastrar pedido' });
   }
 });
 
@@ -181,6 +205,8 @@ router.put('/:id', async (req, res) => {
   const pedidoId = Number(req.params.id);
   await db.run('BEGIN');
   try {
+    validarProdutosRepetidos(req.body.ITENS || []);
+
     const dataLocacao = req.body.DATALOCACAO;
     let periodo = n(req.body.PERIODO, 0);
     let dataDevolucao = req.body.DATADEVOLUCAO;
@@ -242,8 +268,9 @@ router.put('/:id', async (req, res) => {
     res.json(await montarPedido(db, pedidoId));
   } catch (error) {
     await db.run('ROLLBACK');
+    const statusCode = (error as any).statusCode || 500;
     console.error(error);
-    res.status(500).json({ message: 'Erro ao editar pedido' });
+    res.status(statusCode).json({ message: statusCode === 400 ? (error as Error).message : 'Erro ao editar pedido' });
   }
 });
 
