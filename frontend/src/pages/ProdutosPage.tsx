@@ -50,7 +50,7 @@ const emptyForm: Produto = {
   MOSTRACONTRATO: 'SIM',
   ACESSORIO: 'NAO',
   LOCACAO: '',
-  TIPO: '',
+  TIPO: 'MENSAL',
   CONTROLE: ''
 };
 
@@ -207,7 +207,11 @@ export function ProdutosPage() {
               </label>
               <label>
                 <span className="label">Tipo</span>
-                <input className="input" value={form.TIPO || ''} onChange={(e) => change('TIPO', e.target.value)} maxLength={6} />
+                <select className="input" value={form.TIPO || 'MENSAL'} onChange={(e) => change('TIPO', e.target.value)}>
+                  <option>MENSAL</option>
+                  <option>DIARIA</option>
+                  <option>VALOR</option>
+                </select>                
               </label>
               <label>
                 <span className="label">Quantidade Real</span>
