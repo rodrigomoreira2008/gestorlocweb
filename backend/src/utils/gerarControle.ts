@@ -23,3 +23,7 @@ export function gerarControleGrupoProduto() {
 export function gerarControleLocacao() {
   return gerarControle('LOC');
 }
+
+export function gerarControleProduto() {
+  return gerarControle('PROD');
+}
