@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom';
-import { Building2, Home, Layers3, Package, ShoppingBag, Users } from 'lucide-react';
+import { Building2, ClipboardList, Home, Layers3, Package, ShoppingBag, Users } from 'lucide-react';
 
 export function Layout() {
   const linkClass = ({ isActive }: { isActive: boolean }) =>
@@ -21,6 +21,9 @@ export function Layout() {
         </div>
 
         <nav className="grid gap-2">
+          <NavLink to="/pedidos" className={linkClass}>
+            <ClipboardList size={18} /> Pedidos
+          </NavLink>
           <NavLink to="/parceiros" className={linkClass}>
             <Users size={18} /> Parceiros
           </NavLink>
