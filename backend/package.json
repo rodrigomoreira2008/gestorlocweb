@@ -1,0 +1,25 @@
+{
+  "name": "gestorloc-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "node dist/server.js",
+    "build": "tsc",
+    "db:init": "tsx src/db/init.ts"
+  },
+  "dependencies": {
+    "@types/cors": "latest",
+    "@types/express": "latest",
+    "@types/node": "latest",
+    "cors": "latest",
+    "express": "latest",
+    "sqlite": "latest",
+    "sqlite3": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "tsx": "latest",
+    "typescript": "latest"
+  }
+}
