@@ -27,3 +27,7 @@ export function gerarControleLocacao() {
 export function gerarControleProduto() {
   return gerarControle('PROD');
 }
+
+export function gerarControlePedido() {
+  return gerarControle('PED');
+}
