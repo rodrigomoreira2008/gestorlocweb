@@ -4,6 +4,7 @@ import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { Layout } from './components/Layout';
 import { GrupoParceirosPage } from './pages/GrupoParceirosPage';
 import { GrupoProdutosPage } from './pages/GrupoProdutosPage';
+import { LocacaoPage } from './pages/LocacaoPage';
 import { ParceirosPage } from './pages/ParceirosPage';
 import './index.css';
 
@@ -15,7 +16,8 @@ const router = createBrowserRouter([
       { index: true, element: <Navigate to="/parceiros" replace /> },
       { path: 'parceiros', element: <ParceirosPage /> },
       { path: 'grupo-parceiros', element: <GrupoParceirosPage /> },
-      { path: 'grupo-produtos', element: <GrupoProdutosPage /> }
+      { path: 'grupo-produtos', element: <GrupoProdutosPage /> },
+      { path: 'locacao', element: <LocacaoPage /> }
     ]
   }
 ]);
