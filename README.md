@@ -8,6 +8,7 @@ Sistema web moderno e responsivo gerado a partir do arquivo `GestorLoc.sql`.
 - `GrupoProdutos`
 - `Locacao`
 - `Parceiros`
+- `Produtos`
 
 ## Tecnologias
 
@@ -74,6 +75,14 @@ http://localhost:5173
 - `PUT /api/locacao/:id`
 - `DELETE /api/locacao/:id`
 
+### Produtos
+
+- `GET /api/produtos`
+- `GET /api/produtos/:id`
+- `POST /api/produtos`
+- `PUT /api/produtos/:id`
+- `DELETE /api/produtos/:id`
+
 ### Parceiros
 
 - `GET /api/parceiros`
@@ -94,6 +103,7 @@ Os cadastros abaixo geram automaticamente o campo `CONTROLE` no backend:
 - `GrupoParceiros`: prefixo `GP`
 - `GrupoProdutos`: prefixo `GPR`
 - `Locacao`: prefixo `LOC`
+- `Produtos`: prefixo `PROD`
 
 Regras implementadas:
 
@@ -124,6 +134,22 @@ Esta versão inclui o cadastro de Locação, no mesmo padrão do Grupo Produtos:
 - API REST em `/api/locacao`
 - Tabela SQLite `Locacao`
 - Campos principais: `DESCRICAO`, `ENDERECOPADRAO`, `STATUS`, `TIPO` e `CONTROLE`
+
+## Produtos
+
+Esta versão inclui o cadastro de Produtos:
+
+- Tela de listagem em `/produtos`
+- Cadastro e edição em modal
+- Campo `GRUPO` vinculado à tabela `GrupoProdutos`
+- Campo `LOCACAO` vinculado à tabela `Locacao`
+- Campo `CONTROLE` automático no backend com prefixo `PROD`
+- Campo `UNIDADE` com opções `UNIDADE`, `METRO`, `CENTIMETRO`, `PACOTE`
+- Campo `MOSTRACONTRATO` com opções `SIM`, `NAO`
+- Campo `ACESSORIO` com opções `SIM`, `NAO`
+- Campo `STATUS` calculado automaticamente pelo estoque
+- API REST em `/api/produtos`
+- Tabela SQLite `Produtos`
 
 ## Recriar banco local
 
