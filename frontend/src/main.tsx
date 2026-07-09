@@ -6,6 +6,7 @@ import { GrupoParceirosPage } from './pages/GrupoParceirosPage';
 import { GrupoProdutosPage } from './pages/GrupoProdutosPage';
 import { LocacaoPage } from './pages/LocacaoPage';
 import { ParceirosPage } from './pages/ParceirosPage';
+import { ProdutosPage } from './pages/ProdutosPage';
 import './index.css';
 
 const router = createBrowserRouter([
@@ -17,7 +18,8 @@ const router = createBrowserRouter([
       { path: 'parceiros', element: <ParceirosPage /> },
       { path: 'grupo-parceiros', element: <GrupoParceirosPage /> },
       { path: 'grupo-produtos', element: <GrupoProdutosPage /> },
-      { path: 'locacao', element: <LocacaoPage /> }
+      { path: 'locacao', element: <LocacaoPage /> },
+      { path: 'produtos', element: <ProdutosPage /> }
     ]
   }
 ]);
