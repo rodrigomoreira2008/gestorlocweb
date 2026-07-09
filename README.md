@@ -5,6 +5,8 @@ Sistema web moderno e responsivo gerado a partir do arquivo `GestorLoc.sql`.
 ## Tabelas implementadas
 
 - `GrupoParceiros`
+- `GrupoProdutos`
+- `Locacao`
 - `Parceiros`
 
 ## Tecnologias
@@ -56,6 +58,22 @@ http://localhost:5173
 - `PUT /api/grupo-parceiros/:id`
 - `DELETE /api/grupo-parceiros/:id`
 
+### Grupo Produtos
+
+- `GET /api/grupo-produtos`
+- `GET /api/grupo-produtos/:id`
+- `POST /api/grupo-produtos`
+- `PUT /api/grupo-produtos/:id`
+- `DELETE /api/grupo-produtos/:id`
+
+### Locação
+
+- `GET /api/locacao`
+- `GET /api/locacao/:id`
+- `POST /api/locacao`
+- `PUT /api/locacao/:id`
+- `DELETE /api/locacao/:id`
+
 ### Parceiros
 
 - `GET /api/parceiros`
@@ -69,39 +87,20 @@ http://localhost:5173
 O arquivo original usa Firebird. Para facilitar a execução local, o projeto inclui um banco SQLite equivalente.
 Caso queira manter Firebird em produção, a camada `backend/src/db/connection.ts` pode ser trocada por um driver Firebird.
 
-## Atualização: CONTROLE automático em GrupoParceiros
+## CONTROLE automático
 
-Nesta versão, o campo `CONTROLE` da tabela `GrupoParceiros` é gerado automaticamente pelo backend no cadastro.
+Os cadastros abaixo geram automaticamente o campo `CONTROLE` no backend:
 
-Formato exemplo:
-
-```txt
-GP2607031430251234829
-```
+- `GrupoParceiros`: prefixo `GP`
+- `GrupoProdutos`: prefixo `GPR`
+- `Locacao`: prefixo `LOC`
 
 Regras implementadas:
 
 - O usuário não digita o campo `CONTROLE` no cadastro.
 - O campo aparece como somente leitura na tela.
 - Na edição, o `CONTROLE` não é alterado.
-- O banco cria índice único para `GrupoParceiros.CONTROLE`.
-
-Para aplicar o banco do zero durante os testes:
-
-```bash
-cd backend
-npm install
-npm run db:init
-npm run dev
-```
-
-Se você já criou um banco SQLite antigo e quiser recriar:
-
-```powershell
-Remove-Item data\gestorloc.sqlite
-npm run db:init
-npm run dev
-```
+- O banco cria índice único para os campos de controle.
 
 ## Grupo de Produtos
 
@@ -114,6 +113,20 @@ Esta versão inclui o cadastro de Grupo Produtos, no mesmo padrão do Grupo Parc
 - API REST em `/api/grupo-produtos`
 - Tabela SQLite `GrupoProdutos`
 
+## Locação
+
+Esta versão inclui o cadastro de Locação, no mesmo padrão do Grupo Produtos:
+
+- Tela de listagem em `/locacao`
+- Cadastro e edição em modal
+- Campo `CONTROLE` somente leitura no frontend
+- Geração automática do `CONTROLE` no backend com prefixo `LOC`
+- API REST em `/api/locacao`
+- Tabela SQLite `Locacao`
+- Campos principais: `DESCRICAO`, `ENDERECOPADRAO`, `STATUS`, `TIPO` e `CONTROLE`
+
+## Recriar banco local
+
 Para atualizar/criar as tabelas, rode:
 
 ```bash
@@ -121,4 +134,12 @@ cd backend
 npm run db:init
 ```
 
-Se você já tiver um banco antigo e quiser recriar tudo do zero, apague o arquivo `backend/data/gestorloc.sqlite` e rode novamente `npm run db:init`.
+Se você já tiver um banco antigo e quiser recriar tudo do zero, apague o arquivo SQLite e rode novamente `npm run db:init`.
+
+PowerShell:
+
+```powershell
+Remove-Item gestorloc.sqlite
+npm run db:init
+npm run dev
+```
