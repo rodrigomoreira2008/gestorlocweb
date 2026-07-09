@@ -52,6 +52,8 @@ type Pedido = {
   ITENS?: ItemPedido[];
 };
 
+const mensagemProdutoRepetido = 'O produto escolhido já está cadastrado no pedido.';
+
 function today() {
   return new Date().toISOString().slice(0, 10);
 }
@@ -81,6 +83,11 @@ function addTwoHours(timeText: string) {
 function n(value: any) {
   const parsed = Number(value);
   return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function temProdutoRepetido(itens: ItemPedido[] = []) {
+  const produtos = itens.map((item) => String(item.PRODUTO || '').trim()).filter(Boolean);
+  return new Set(produtos).size !== produtos.length;
 }
 
 const initialForm: Pedido = {
@@ -173,6 +180,12 @@ export function PedidosPage() {
   function alterarItem(index: number, field: keyof ItemPedido, value: any) {
     setForm((current) => {
       const itens = [...(current.ITENS || [])];
+
+      if (field === 'PRODUTO' && value && itens.some((item, itemIndex) => itemIndex !== index && String(item.PRODUTO) === String(value))) {
+        alert(mensagemProdutoRepetido);
+        return current;
+      }
+
       let item = { ...itens[index], [field]: value };
       if (field === 'PRODUTO') {
         const produto = produtos.find((p) => String(p.ID) === String(value));
@@ -204,13 +217,24 @@ export function PedidosPage() {
 
   async function submit(event: FormEvent) {
     event.preventDefault();
+
+    if (temProdutoRepetido(form.ITENS || [])) {
+      alert(mensagemProdutoRepetido);
+      return;
+    }
+
     const payload = { ...form, VALORPRODUTOS: totais.valorProdutos, VALORTOTAL: totais.valorTotal, PERCENTUALDESCONTO: totais.percentualDesconto };
     const method = form.ID ? 'PUT' : 'POST';
     const path = form.ID ? `/pedidos/${form.ID}` : '/pedidos';
-    await api(path, { method, body: JSON.stringify(payload) });
-    setOpen(false);
-    setForm(initialForm);
-    await load();
+
+    try {
+      await api(path, { method, body: JSON.stringify(payload) });
+      setOpen(false);
+      setForm(initialForm);
+      await load();
+    } catch (error) {
+      alert(error instanceof Error ? error.message : 'Erro ao salvar pedido');
+    }
   }
 
   async function remove(id?: number) {
