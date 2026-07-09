@@ -4,6 +4,7 @@ import grupoParceirosRoutes from './routes/grupoParceiros.js';
 import grupoProdutosRoutes from './routes/grupoProdutos.js';
 import locacaoRoutes from './routes/locacao.js';
 import parceirosRoutes from './routes/parceiros.js';
+import pedidosRoutes from './routes/pedidos.js';
 import produtosRoutes from './routes/produtos.js';
 
 const app = express();
@@ -17,6 +18,7 @@ app.use('/api/grupo-parceiros', grupoParceirosRoutes);
 app.use('/api/grupo-produtos', grupoProdutosRoutes);
 app.use('/api/locacao', locacaoRoutes);
 app.use('/api/parceiros', parceirosRoutes);
+app.use('/api/pedidos', pedidosRoutes);
 app.use('/api/produtos', produtosRoutes);
 
 app.listen(port, () => {
