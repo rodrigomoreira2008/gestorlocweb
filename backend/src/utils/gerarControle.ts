@@ -19,3 +19,7 @@ export function gerarControleGrupoParceiro() {
 export function gerarControleGrupoProduto() {
   return gerarControle('GPR');
 }
+
+export function gerarControleLocacao() {
+  return gerarControle('LOC');
+}
